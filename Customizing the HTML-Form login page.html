@@ -1,0 +1,186 @@
+
+Customizing the HTML-Form login page
+
+
+-> Forms conatin HTML, JavaScript, Velocity Variables
+
+-> Step1: C:\Program Files\Ping Identity\pingfederate-12.1.0\pingfederate\server\default\conf\language-packs
+
+   Edit the File : pingfederate-messages.properties
+   
+   Go to # html.form.login.template.html and update few options as required::
+   
+   html.form.login.template.title=Sign On // html.form.login.template.title=Log In Experience with PF
+   html.form.login.template.usernameTitle=Username // html.form.login.template.usernameTitle=Ldap Username
+   html.form.login.template.passwordTitle=Password // html.form.login.template.passwordTitle=Ldap Password
+   html.form.login.template.rememberUsernameTitle=Remember my username
+   html.form.login.template.myDeviceTitle=This is my device
+   html.form.login.template.signInButtonTitle=Sign On
+   html.form.login.template.signingOn=Signing on...
+   html.form.login.template.cancelButtonTitle=Cancel
+   html.form.login.template.loginFailureMessage=Invalid username or password. Please try again.
+   html.form.login.template.changePassword=Change Password?
+   html.form.login.template.forgotPassword=Trouble Signing On?
+   html.form.login.template.recoverUsername=Trouble Signing On?
+   html.form.login.template.resetPassword=Reset it now
+   html.form.login.template.noUsername=Please enter a username
+   html.form.login.template.noAccountMessage=Don't have an account?
+   html.form.login.template.registerAccount=Register now
+   html.form.login.template.loginWithButtonTitle=Sign On With
+   html.form.login.template.columnsSeparator=or
+   html.form.login.template.missingField=Please fill out this field.
+
+   "After updating, save the file."
+
+-> Step 2: C:\Program Files\Ping Identity\pingfederate-12.1.0\pingfederate\server\default\conf\template\assets\images
+
+   Bring your company logo image and paste under images folder // example: ping-logo.JPG
+   
+   or
+   
+   use existing image file present under images foler // Example: ping-email-logo.png
+   
+   You just need to define the image file name in html.form.login.template.html file // we can see later in this section
+   
+   
+   
+-> Step 3: C:\Program Files\Ping Identity\pingfederate-12.1.0\pingfederate\server\default\conf\template\assets\css
+
+   Edit the file: main.css
+   
+   Let's change the background image
+   
+   Search for background-image in file. you can see the lines as shown below
+   
+   html {
+  height: 100%;
+  background-color: #f7f7f7;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #3d454d;
+  background-color: rgba(61, 69, 77, 0.9) \9;
+  /*IE9 hack */
+  
+  background-image: radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -o-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -ms-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -moz-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -webkit-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+   
+   
+   Add the line(background: radial-gradient(#e66465, #9198e5);) above background-image and comment the below as shown::
+   
+   html {
+  height: 100%;
+  background-color: #f7f7f7;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #3d454d;
+  background-color: rgba(61, 69, 77, 0.9) \9;
+  /*IE9 hack */
+  
+  background: radial-gradient(#e66465, #9198e5);
+  /*background-image: radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -o-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -ms-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -moz-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  background-image: -webkit-radial-gradient(40% 40%, circle cover, rgba(61, 69, 77, 0.9) 30%, #3d454d 80%);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+   
+   "After updating, save the file."
+
+   
+
+  # The line background: radial-gradient(#e66465, #9198e5); applies a radial gradient background to an element. It transitions from a reddish color (#e66465) at the center to a bluish color (#9198e5) at the outer edges.
+
+
+
+
+-> Step 4: C:\Program Files\Ping Identity\pingfederate-12.1.0\pingfederate\server\default\conf\template
+
+   Edit the File: html.form.login.template.html
+
+      
+   Go to <div class="ping-header"> for defining the logo or brand image
+   
+   <div class="ping-header">
+        <span class="company-logo"><!-- client company logo here --></span>
+        $templateMessages.getMessage($messageKeyPrefix, "title")
+    </div>
+	
+	Modify to
+	
+	<div class="ping-header">
+        <span class="company-logo"><!-- client company logo here --></span>
+<span class="has-logo"> <img src="./assets/images/ping-email-logo.png" height="100" width="100"	alt="foo"></span>
+        $templateMessages.getMessage($messageKeyPrefix, "title")
+    </div>
+  
+  
+   "After updating, save the file."
+   
+   
+   #<span class="has-logo">: This creates a span element with the class has-logo. The class can be used for styling or scripting purposes.
+
+   #<img src="./assets/images/ping-email-logo.png" height="100" width="100" alt="foo">: This is an img (image) element inside the span. It has the following attributes:
+
+   #src="./assets/images/ping-email-logo.png": The path to the image file to be displayed.
+   #height="100": The height of the image in pixels.
+   #width="100": The width of the image in pixels.
+   #alt="foo": Alternative text to display if the image cannot be loaded; in this case, it’s "foo".
+   
+   
+   
+   
+   
+Step 5: Manually move files in a cluster.
+
+
+
+
+
+   
+################################################################################################################################
+
+
+Also, you can create your own fully custom html login page and deploy in template folder with custom name
+Example: custom.html.form.login.template.html
+
+and mention the html file name in adapter configuration.
+
+
+
+   
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
